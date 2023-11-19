@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { db } from "@/lib/db"
 import crypto from "crypto"
-import { env } from 'process';
+import { env } from '@/env.mjs';
 
 const subscriptionUpdateSchema = z.object({
   data: z.object({
@@ -24,8 +24,8 @@ const subscriptionUpdateSchema = z.object({
   }),
 });
 
-export default async function POST(req: Request) {
-  const SIGNING_SECRET = env.LEMONSQUEEZY_WEBHOOK_SECRET || ""
+export async function POST(req: Request) {
+  const SIGNING_SECRET = env.LEMONSQUEEZY_WEBHOOK_SECRET
   // Calculate hash to validate signature
   const signature: any = req.headers.get("x-signature")
   const payload = await req.json()
