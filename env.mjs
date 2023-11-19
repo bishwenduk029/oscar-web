@@ -13,11 +13,11 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(0),
     LEMONSQUEEZY_API_KEY: z.string().min(0),
     LEMONSQUEEZY_STORE_ID: z.string().min(0),
-    LEMONSQUEEZY_WEBHOOK_SECRET: z.string().min(0),
-    LEMONSQUEEZY_API_CHECKOUT_URL: z.string().url().min(1),
+    LEMONSQUEEZY_WEBHOOK_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
+    NEXT_PUBLIC_LEMONSQUEEZY_API_CHECKOUT_URL: z.string().url().min(1),
   },
   runtimeEnv: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
@@ -30,6 +30,6 @@ export const env = createEnv({
     LEMONSQUEEZY_STORE_ID: process.env.LEMONSQUEEZY_STORE_ID,
     LEMONSQUEEZY_WEBHOOK_SECRET: process.env.LEMONSQUEEZY_WEBHOOK_SECRET,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-    LEMONSQUEEZY_API_CHECKOUT_URL: process.env.LEMONSQUEEZY_API_CHECKOUT_URL,
+    NEXT_PUBLIC_LEMONSQUEEZY_API_CHECKOUT_URL: process.env.NEXT_PUBLIC_LEMONSQUEEZY_API_CHECKOUT_URL,
   },
 })

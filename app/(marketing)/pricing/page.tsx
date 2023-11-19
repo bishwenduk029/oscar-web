@@ -1,17 +1,17 @@
 import Link from "next/link"
 
+import { env } from "@/env.mjs"
+import { getCurrentUser } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
-import { getCurrentUser } from "@/lib/session"
-import { env } from "@/env.mjs"
 
 export default async function PricingPage() {
   const user = await getCurrentUser()
 
   const getCheckoutLink = (user) => {
     if (user) {
-      return env.LEMONSQUEEZY_API_CHECKOUT_URL
+      return `${env.NEXT_PUBLIC_LEMONSQUEEZY_API_CHECKOUT_URL}?checkout[custom][user_id]=${user.id}`
     }
 
     return "/login"

@@ -1,15 +1,22 @@
-import { env } from "@/env.mjs"
 import { verify } from "jsonwebtoken"
+
+import { env } from "@/env.mjs"
 
 // The function name should directly correspond to the HTTP method
 export async function POST(req: Request) {
+  const headers = new Headers({
+    "Access-Control-Allow-Origin": "*", // Or specify a specific domain
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  })
+
   const { prompt } = await req.json() // Read the request body
   const authHeader = req.headers.get("authorization") // Use 'get' to retrieve headers
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return new Response(
       JSON.stringify({ error: "No token provided or invalid token format" }),
-      { status: 401 }
+      { headers, status: 401 }
     )
   }
 
@@ -19,19 +26,20 @@ export async function POST(req: Request) {
     decodedSession = verify(token, env.NEXTAUTH_SECRET)
   } catch (error) {
     return new Response(JSON.stringify({ error: "Invalid token" }), {
+      headers,
       status: 401,
     })
   }
 
   if (
     !decodedSession.subscription ||
-    decodedSession.subscription.status !== "ACTIVE"
+    decodedSession.subscription.status !== "active"
   ) {
     return new Response(
       JSON.stringify({
         error: "Access denied. No active subscription found.",
       }),
-      { status: 403 }
+      { headers, status: 403 }
     )
   }
 
@@ -55,11 +63,26 @@ export async function POST(req: Request) {
     }
 
     const result = await response.json()
-    return new Response(JSON.stringify({ response: result }), { status: 200 })
+    return new Response(JSON.stringify({ response: result }), {
+      headers,
+      status: 200,
+    })
   } catch (error) {
     console.error("API call failed:", error)
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      headers,
       status: 500,
     })
   }
+}
+
+// Separate OPTIONS handler
+export async function OPTIONS(req: Request) {
+  const headers = new Headers({
+    "Access-Control-Allow-Origin": "*", // Or specify a specific domain
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  });
+
+  return new Response(null, { headers, status: 204 });
 }

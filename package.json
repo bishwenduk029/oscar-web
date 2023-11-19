@@ -67,6 +67,7 @@
     "cmdk": "^0.1.22",
     "concurrently": "^8.0.1",
     "contentlayer": "^0.3.1",
+    "crypto": "^1.0.1",
     "date-fns": "^2.29.3",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.92.0",
