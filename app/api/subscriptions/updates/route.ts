@@ -1,9 +1,10 @@
 // pages/api/updateSubscriptionStatus.js
 
-import { z } from 'zod';
-import { db } from "@/lib/db"
 import crypto from "crypto"
-import { env } from '@/env.mjs';
+import { z } from "zod"
+
+import { env } from "@/env.mjs"
+import { db } from "@/lib/db"
 
 const subscriptionUpdateSchema = z.object({
   data: z.object({
@@ -22,7 +23,7 @@ const subscriptionUpdateSchema = z.object({
       "subscription_unpaused",
     ]),
   }),
-});
+})
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = env.LEMONSQUEEZY_WEBHOOK_SECRET
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
   const payload = await req.json()
   const hash = crypto
     .createHmac("sha256", SIGNING_SECRET)
-    .update(payload)
+    .update(JSON.stringify(payload))
     .digest("hex")
 
   if (!crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(signature))) {
@@ -39,23 +40,34 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { data, meta } = subscriptionUpdateSchema.parse(req.body);
-    const lemonSqueezyId = parseInt(data.id);
-    const status = data.attributes.status;
-    const eventType = meta.event_name;
+    const { data, meta } = subscriptionUpdateSchema.parse(req.body)
+    const lemonSqueezyId = parseInt(data.id)
+    const status = data.attributes.status
+    const eventType = meta.event_name
 
-    if (subscriptionUpdateSchema.shape.meta.shape.event_name.options.includes(eventType)) {
+    if (
+      subscriptionUpdateSchema.shape.meta.shape.event_name.options.includes(
+        eventType
+      )
+    ) {
       const subscription = await db.subscription.update({
         where: { lemonSqueezyId },
         data: { status },
-      });
+      })
 
-      return new Response(JSON.stringify(subscription), { status: 200 });
+      return new Response(JSON.stringify(subscription), { status: 200 })
     } else {
-      return new Response(JSON.stringify({ message: 'Event type does not require status update.' }), { status: 400 });
+      return new Response(
+        JSON.stringify({
+          message: "Event type does not require status update.",
+        }),
+        { status: 400 }
+      )
     }
   } catch (error) {
-    console.error('Request error', error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    console.error("Request error", error)
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+    })
   }
 }

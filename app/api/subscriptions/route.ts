@@ -85,7 +85,7 @@ export async function POST(req: Request) {
   const payload = await req.json()
   const hash = crypto
     .createHmac("sha256", SIGNING_SECRET)
-    .update(payload)
+    .update(JSON.stringify(payload))
     .digest("hex")
 
   if (!crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(signature))) {
