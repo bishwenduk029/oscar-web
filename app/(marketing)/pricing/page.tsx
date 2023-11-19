@@ -3,12 +3,20 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
+import { getCurrentUser } from "@/lib/session"
+import { env } from "@/env.mjs"
 
-export const metadata = {
-  title: "Pricing",
-}
+export default async function PricingPage() {
+  const user = await getCurrentUser()
 
-export default function PricingPage() {
+  const getCheckoutLink = (user) => {
+    if (user) {
+      return env.LEMONSQUEEZY_API_CHECKOUT_URL
+    }
+
+    return "/login"
+  }
+
   return (
     <section className="container flex flex-col  gap-6 py-8 md:max-w-[64rem] md:py-12 lg:py-24">
       <div className="mx-auto flex w-full flex-col gap-4 md:max-w-[58rem]">
@@ -16,7 +24,7 @@ export default function PricingPage() {
           Simple, transparent pricing
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          Unlock all features including unlimited posts for your blog.
+          Unlimited edits for your content.
         </p>
       </div>
       <div className="grid w-full items-start gap-10 rounded-lg border p-10 md:grid-cols-[1fr_200px]">
@@ -24,44 +32,41 @@ export default function PricingPage() {
           <h3 className="text-xl font-bold sm:text-2xl">
             What&apos;s included in the PRO plan
           </h3>
-          <ul className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+          <ul className="text-theme grid gap-3 text-sm sm:grid-cols-2">
             <li className="flex items-center">
-              <Icons.check className="mr-2 h-4 w-4" /> Unlimited Posts
+              <Icons.check className="mr-2 h-4 w-4" /> Unlimited Content editing
             </li>
             <li className="flex items-center">
-              <Icons.check className="mr-2 h-4 w-4" /> Unlimited Users
+              <Icons.check className="mr-2 h-4 w-4" /> Custom Prompts
             </li>
 
             <li className="flex items-center">
-              <Icons.check className="mr-2 h-4 w-4" /> Custom domain
+              <Icons.check className="mr-2 h-4 w-4" /> Secure Cloud Access
             </li>
             <li className="flex items-center">
-              <Icons.check className="mr-2 h-4 w-4" /> Dashboard Analytics
-            </li>
-            <li className="flex items-center">
-              <Icons.check className="mr-2 h-4 w-4" /> Access to Discord
-            </li>
-            <li className="flex items-center">
-              <Icons.check className="mr-2 h-4 w-4" /> Premium Support
+              <Icons.check className="mr-2 h-4 w-4" /> Privacy - data is not
+              used for anything
             </li>
           </ul>
         </div>
         <div className="flex flex-col gap-4 text-center">
           <div>
-            <h4 className="text-7xl font-bold">$19</h4>
-            <p className="text-sm font-medium text-muted-foreground">
+            <h4 className="text-7xl font-bold">$3.99</h4>
+            <p className="text-theme-alter text-sm font-medium">
               Billed Monthly
             </p>
           </div>
-          <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
+          <Link
+            href={getCheckoutLink(user)}
+            className={cn(buttonVariants({ size: "lg" }))}
+          >
             Get Started
           </Link>
         </div>
       </div>
       <div className="mx-auto flex w-full max-w-[58rem] flex-col gap-4">
-        <p className="max-w-[85%] leading-normal text-muted-foreground sm:leading-7">
-          Taxonomy is a demo app.{" "}
-          <strong>You can test the upgrade and won&apos;t be charged.</strong>
+        <p className="text-theme max-w-[85%] leading-normal sm:leading-7">
+          <strong>OscarAI is in trial phase.</strong>
         </p>
       </div>
     </section>

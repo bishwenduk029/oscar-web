@@ -37,29 +37,29 @@
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+    --background: 190, 50%, 5%;
+    --foreground: 190 100% 91%; /* Primary color */
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted: 190 50% 30%; /* Muted shade based on primary color */
+    --muted-foreground: 190 50% 70%; /* Lighter shade for text on muted background */
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 190 100% 50%; /* Brighter accent based on primary color */
+    --accent-foreground: 190 30% 95%; /* Very light shade for text on accent color */
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
+    --popover: 190 50% 20%; /* Darker shade for popovers */
+    --popover-foreground: 190 100% 91%; /* Primary color for text */
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --border: 190 30% 40%; /* Subtle border color */
+    --input: 190 30% 40%; /* Input background same as border */
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --card: 190 50% 15%; /* Card background similar to general background */
+    --card-foreground: 190 100% 91%; /* Primary color for text */
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+    --primary: 190 100% 91%; /* Primary color */
+    --primary-foreground: 190 50% 20%; /* Dark shade for text on primary color background */
 
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 190 50% 60%; /* Secondary color as a lighter shade */
+    --secondary-foreground: 190 30% 95%; /* Very light shade for text on secondary color */
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
@@ -78,4 +78,17 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+@keyframes animateGradientLeftToRight {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+.animate-gradient-left-to-right {
+  animation: animateGradientLeftToRight 5s linear infinite;
 }
