@@ -1,7 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-import { sign, verify } from "jsonwebtoken"
 
 import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
@@ -74,7 +73,6 @@ export const authOptions: NextAuthOptions = {
             name: activeSubscription.name,
             status: activeSubscription.status,
             endsAt: activeSubscription.endsAt,
-            planId: activeSubscription.planId,
           },
         }
       } else {
