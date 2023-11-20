@@ -28,7 +28,7 @@ const subscriptionUpdateSchema = z.object({
 export async function POST(req: Request) {
   const SIGNING_SECRET = env.LEMONSQUEEZY_WEBHOOK_SECRET
   // Calculate hash to validate signature
-  const signature: any = req.headers.get("x-signature")
+  const signature: any = req.headers.get("X-Signature")
   const payload = await req.json()
   const hash = crypto
     .createHmac("sha256", SIGNING_SECRET)
