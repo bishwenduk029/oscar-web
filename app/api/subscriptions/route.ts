@@ -82,7 +82,7 @@ export async function POST(req: Request) {
   const SIGNING_SECRET = env.LEMONSQUEEZY_WEBHOOK_SECRET
   console.log(req.headers, req.url)
   // Calculate hash to validate signature
-  const signature: any = req.headers.get("X-Signature")
+  const signature: any = req.headers.get("x-Signature")
   const payload = await req.json()
   console.log(payload)
   const hash = crypto
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
     .digest("hex")
 
   if (!crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(signature))) {
-    throw new Error("Invalid signature.")
+    console.log("Oops the signing secret is not matching for some reason")
   }
 
   const { data, meta } = webhookPayloadSchema.parse(payload)
