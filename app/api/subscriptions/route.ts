@@ -155,13 +155,6 @@ export async function POST(req: Request) {
 
         return new Response(null, { status: 200 })
 
-      case "subscription_updated":
-      case "subscription_cancelled":
-      case "subscription_resumed":
-      case "subscription_expired":
-      case "subscription_paused":
-      case "subscription_unpaused":
-
       default:
         return new Response(null, { status: 400 })
     }
