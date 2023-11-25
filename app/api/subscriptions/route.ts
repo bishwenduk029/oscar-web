@@ -80,9 +80,11 @@ const webhookPayloadSchema = z.object({
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = env.LEMONSQUEEZY_WEBHOOK_SECRET
+  console.log(req.headers, req.url)
   // Calculate hash to validate signature
   const signature: any = req.headers.get("X-Signature")
   const payload = await req.json()
+  console.log(payload)
   const hash = crypto
     .createHmac("sha256", SIGNING_SECRET)
     .update(JSON.stringify(payload))
@@ -105,6 +107,7 @@ export async function POST(req: Request) {
   try {
     // Handle different event types
     const eventType = meta.event_name
+    console.log(webhookEvent)
     switch (eventType) {
       case "subscription_created":
         // Lookup user by userId provided in the custom_data
