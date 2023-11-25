@@ -163,6 +163,7 @@ export async function POST(req: Request) {
     }
   } catch (error) {
     // Handle errors
+    console.log(error)
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
     })
