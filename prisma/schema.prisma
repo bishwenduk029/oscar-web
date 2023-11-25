@@ -87,6 +87,7 @@ model Subscription {
   lemonSqueezyId     Int       @unique
   name               String
   email              String
+  orderId            Int
   status             String
   renewsAt           DateTime?
   endsAt             DateTime?
