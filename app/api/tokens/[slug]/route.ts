@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
+import { verify } from "jsonwebtoken"
 
+import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
 
 export async function GET(
@@ -31,19 +33,34 @@ export async function GET(
         },
       })
 
-      // If the session is not found, return a 404
-      if (!session) {
-        return new Response(JSON.stringify({ message: "Session not found" }), {
-          headers,
-          status: 404,
-        })
+      if (session) {
+        try {
+          const decodedSession = verify(
+            session.sessionToken,
+            env.NEXTAUTH_SECRET
+          )
+
+          // Return the sessionToken
+          return new Response(
+            JSON.stringify({
+              sessionToken: session.sessionToken,
+              subscription: decodedSession.subscription,
+            }),
+            { headers }
+          )
+        } catch (error) {
+          return new Response(JSON.stringify({ error: "Invalid token" }), {
+            headers,
+            status: 401,
+          })
+        }
       }
 
-      // Return the sessionToken
-      return new Response(
-        JSON.stringify({ sessionToken: session.sessionToken }),
-        { headers }
-      )
+      // If the session is not found, return a 404
+      return new Response(JSON.stringify({ message: "Session not found" }), {
+        headers,
+        status: 404,
+      })
     } catch (error) {
       // Handle any errors
       console.error(error)
