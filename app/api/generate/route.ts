@@ -32,8 +32,8 @@ export async function POST(req: Request) {
   }
 
   if (
-    !decodedSession.subscription ||
-    decodedSession.subscription.status !== "active"
+    !decodedSession.user.subscription ||
+    decodedSession.user.subscription.status !== "active"
   ) {
     return new Response(
       JSON.stringify({
@@ -82,7 +82,7 @@ export async function OPTIONS(req: Request) {
     "Access-Control-Allow-Origin": "*", // Or specify a specific domain
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  });
+  })
 
-  return new Response(null, { headers, status: 204 });
+  return new Response(null, { headers, status: 204 })
 }
