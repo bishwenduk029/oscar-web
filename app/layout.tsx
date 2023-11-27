@@ -7,6 +7,7 @@ import { absoluteUrl, cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
+
 import { Providers } from "./provider"
 
 const fontSans = FontSans({
@@ -31,19 +32,34 @@ export const metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Server Components",
-    "Radix UI",
+    "Autopilot",
+    "AI",
+    "Co-pilot",
+    "Writing assistant",
+    "Writing Co-pilot",
+    "AI Writing Assistant",
+    "Content Creation Tool",
+    "AI for Content Writers",
+    "Autopilot Writing Software",
+    "Creative Writing AI",
+    "AI-Powered Content Generation",
+    "Automated Writing Co-pilot",
+    "AI Content Optimization",
+    "SEO-Friendly Writing Assistant",
+    "Artificial Intelligence for Writers",
+    "ChatGPT-Alternative Writing Assistant",
+    "GPT-4 alternative",
+    "ChatGPT alternative",
+    "Advanced AI Writing Software",
+    "Next-Gen AI for Content Creation",
   ],
   authors: [
     {
-      name: "shadcn",
-      url: "https://shadcn.com",
+      name: "Sayanti",
+      url: "https://oscar-web-rho.vercel.app/",
     },
   ],
-  creator: "shadcn",
+  creator: "Sayanti",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
