@@ -4,36 +4,36 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --background: 50 45% 100%;
+    --foreground: 20 44% 10%; /* Dark brown for main text, enhancing readability */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 14 100% 93%; /* Very soft orange for less important elements */
+    --muted-foreground: 20 44% 10%; /* Dark brown for text on muted elements */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover: 16 86% 63%; /* Warm, mid-tone orange for popovers */
+    --popover-foreground: 0 0% 100%; /* White for popover text for contrast */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 27 90% 88%; /* Light coral for borders */
+    --input: 27 90% 88%; /* Light coral for input fields */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card: 11 80% 50%; /* Rich, deep orange for cards */
+    --card-foreground: 0 0% 100%; /* White for text on cards for contrast */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 359 70% 54%; /* Soft red for primary elements */
+    --primary-foreground: 0 0% 100%; /* White for text on primary elements */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 32 100% 64%; /* Bright orange for secondary elements */
+    --secondary-foreground: 20 44% 10%; /* Dark brown for text on secondary elements */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 29 94% 52%; /* Vibrant orange for accents */
+    --accent-foreground: 0 0% 100%; /* White for text on accent elements */
 
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 79% 61%; /* Warm red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White for text on destructive elements */
 
-    --ring: 215 20.2% 65.1%;
+    --ring: 32 100% 64%; /* Bright orange for focus rings */
 
-    --radius: 0.5rem;
+    --radius: 0.5rem; /* Border radius for elements */
   }
 
   .dark {

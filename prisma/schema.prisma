@@ -51,12 +51,24 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
-  accounts Account[]
-  sessions Session[]
-  Post     Post[]
+  accounts      Account[]
+  sessions      Session[]
+  Post          Post[]
   subscriptions Subscription[]
 
   @@map(name: "users")
+}
+
+model Prompt {
+  id        String   @unique
+  title     String
+  prompt    String
+  category  String
+  icon     String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  @@map(name: "prompts")
 }
 
 model VerificationToken {
@@ -99,15 +111,16 @@ model Subscription {
   userId             String
   isUsageBased       Boolean   @default(false)
   subscriptionItemId Int?      @unique
+  promptId           String?
 
   @@index([lemonSqueezyId])
 }
 
 model WebhookEvent {
-  id              Int       @id @default(autoincrement())
-  createdAt       DateTime  @default(now())
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
   eventName       String
-  processed       Boolean   @default(false)
+  processed       Boolean  @default(false)
   body            Json
   processingError String?
 }

@@ -1,6 +1,5 @@
 // pages/complete/[q].js
 import { addAppSession } from "@/lib/session"
-import dynamic from "next/dynamic"
 
 const CompletePage = async ({ searchParams }) => {
   const appSessionIsReady = await addAppSession(searchParams["appLoginID"])
