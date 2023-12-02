@@ -1,6 +1,7 @@
 import { verify } from "jsonwebtoken"
 
 import { env } from "@/env.mjs"
+import { db } from "@/lib/db"
 
 // The function name should directly correspond to the HTTP method
 export async function POST(req: Request) {
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
   })
 
-  const { prompt } = await req.json() // Read the request body
+  const { promptID, content } = await req.json() // Read the request body
   const authHeader = req.headers.get("authorization") // Use 'get' to retrieve headers
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -50,6 +51,15 @@ export async function POST(req: Request) {
         "MODAL_PUBLIC_URL is not defined in the environment variables."
       )
     }
+
+    const template = await db.prompt.findUnique({
+      where: {
+        id: promptID
+      }
+    })
+
+    const prompt = template?.prompt.replace('${content}', content);
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
