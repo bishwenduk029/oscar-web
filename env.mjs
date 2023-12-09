@@ -14,6 +14,7 @@ export const env = createEnv({
     LEMONSQUEEZY_API_KEY: z.string().min(0),
     LEMONSQUEEZY_STORE_ID: z.string().min(0),
     LEMONSQUEEZY_WEBHOOK_SECRET: z.string().min(1),
+    ANYSCALE_API_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
@@ -31,5 +32,6 @@ export const env = createEnv({
     LEMONSQUEEZY_WEBHOOK_SECRET: process.env.LEMONSQUEEZY_WEBHOOK_SECRET,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_LEMONSQUEEZY_API_CHECKOUT_URL: process.env.NEXT_PUBLIC_LEMONSQUEEZY_API_CHECKOUT_URL,
+    ANYSCALE_API_KEY: process.env.ANYSCALE_API_KEY
   },
 })

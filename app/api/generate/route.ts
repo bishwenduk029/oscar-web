@@ -1,7 +1,15 @@
+import { OpenAIStream } from "ai"
 import { verify } from "jsonwebtoken"
+import { PromptTemplate } from "langchain/prompts"
+import OpenAI from "openai"
 
 import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
+
+const anyscaleAI = new OpenAI({
+  baseURL: "https://api.endpoints.anyscale.com/v1",
+  apiKey: env.ANYSCALE_API_KEY,
+})
 
 // The function name should directly correspond to the HTTP method
 export async function POST(req: Request) {
@@ -54,28 +62,31 @@ export async function POST(req: Request) {
 
     const template = await db.prompt.findUnique({
       where: {
-        id: promptID
-      }
-    })
-
-    const prompt = template?.prompt.replace('${content}', content);
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+        id: promptID,
       },
-      body: JSON.stringify({ prompt }),
     })
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
+    const prompt = await PromptTemplate.fromTemplate(
+      template?.prompt || "{content}"
+    ).format({
+      content,
+    })
 
-    const result = await response.json()
-    return new Response(JSON.stringify({ response: result }), {
-      headers,
-      status: 200,
+    const response = await anyscaleAI.completions.create({
+      model: "mistralai/Mistral-7B-Instruct-v0.1",
+      prompt,
+      temperature: 0.7,
+      stream: true,
+      max_tokens: 1024,
+    })
+
+    const stream = OpenAIStream(response, {})
+
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "X-Content-Type-Options": "nosniff",
+      },
     })
   } catch (error) {
     console.error("API call failed:", error)
