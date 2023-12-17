@@ -7,7 +7,7 @@ import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
 
 const anyscaleAI = new OpenAI({
-  baseURL: "https://api.endpoints.anyscale.com/v1",
+  baseURL: env.ANYSCALE_API_URL,
   apiKey: env.ANYSCALE_API_KEY,
 })
 
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
   })
 
-  const { promptID, content } = await req.json() // Read the request body
+  let { promptID, prompt } = await req.json() // Read the request body
   const authHeader = req.headers.get("authorization") // Use 'get' to retrieve headers
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -60,20 +60,22 @@ export async function POST(req: Request) {
       )
     }
 
-    const template = await db.prompt.findUnique({
-      where: {
-        id: promptID,
-      },
-    })
+    if (promptID) {
+      const template = await db.prompt.findUnique({
+        where: {
+          id: promptID,
+        },
+      })
 
-    const prompt = await PromptTemplate.fromTemplate(
-      template?.prompt || "{content}"
-    ).format({
-      content,
-    })
+      prompt = await PromptTemplate.fromTemplate(template?.prompt || "").format(
+        {
+          content: prompt,
+        }
+      )
+    }
 
     const response = await anyscaleAI.completions.create({
-      model: "mistralai/Mistral-7B-Instruct-v0.1",
+      model: env.ANYSCALE_MODEL,
       prompt,
       temperature: 0.7,
       stream: true,

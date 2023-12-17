@@ -17,9 +17,9 @@ export default async function MarketingLayout({
 }: MarketingLayoutProps) {
   const user = await getCurrentUser()
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="container z-40 bg-background">
-        <div className="flex h-20 items-center justify-between py-6">
+    <div className="flex min-h-screen flex-col bg-gradient-to-tr from-rose-100 to-teal-100">
+      <header className="container z-40">
+        <div className="flex h-20 items-center justify-between py-6 ">
           <MainNav items={marketingConfig.mainNav} />
           {user ? (
             <UserAccountNav

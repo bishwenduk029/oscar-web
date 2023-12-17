@@ -24,7 +24,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             .
           </p>
         </div>
-        <ModeToggle />
+        {/* <ModeToggle /> */}
       </div>
     </footer>
   )
