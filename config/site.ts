@@ -7,7 +7,7 @@ export const siteConfig: SiteConfig = {
   url: "https://oscar-web-rho.vercel.app/",
   ogImage: "https://oscar-web-rho.vercel.app/og.png",
   links: {
-    twitter: "mailto:oscarai.copilot@gmail.com",
+    twitter: "https://www.youtube.com/channel/UCJB34bxHv_IQ6ItBdHe2Vpw",
     github: "https://oscar-web-rho.vercel.app/",
   },
 }

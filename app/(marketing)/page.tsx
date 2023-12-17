@@ -63,7 +63,7 @@ export default async function IndexPage() {
             <iframe
               width="100%"
               height="100%"
-              src="https://www.youtube.com/embed/z7vLhuBUTys"
+              src="https://www.youtube.com/embed/7quFjBkzdPY?si=lles3FDmwtlRoa9P"
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -162,8 +162,8 @@ export default async function IndexPage() {
             Writing CoPilot
           </h2>
           <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
-            Always by your side and can work with any App or website in your
-            desktop .
+            Always by your side and can work with any website in your
+            browser.
           </p>
         </div>
       </section>
