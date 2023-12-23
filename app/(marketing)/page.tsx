@@ -35,7 +35,7 @@ export default async function IndexPage() {
                 Get extension for Browsers:
               </Link>
               <Link
-                href="https://github.com/zankhq/astros"
+                href="https://oscarai-chrome-extension.s3.amazonaws.com/oscarai-mv3-prod-v1.0.0.zip"
                 className={cn(buttonVariants({ size: "lg" }))}
               >
                 <ChromeIcon className="mr-2 h-4 w-4" />

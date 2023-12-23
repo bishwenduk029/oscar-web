@@ -35,6 +35,7 @@ export type SiteConfig = {
   links: {
     twitter: string
     github: string
+    email: string
   }
 }
 

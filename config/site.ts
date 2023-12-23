@@ -9,5 +9,6 @@ export const siteConfig: SiteConfig = {
   links: {
     twitter: "https://www.youtube.com/channel/UCJB34bxHv_IQ6ItBdHe2Vpw",
     github: "https://oscar-web-rho.vercel.app/",
+    email: "mailto:oscarai.copilot@gmail.com"
   },
 }

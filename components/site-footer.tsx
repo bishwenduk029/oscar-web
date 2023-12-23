@@ -14,7 +14,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           <p className="text-center text-sm leading-loose md:text-left">
             Contact Us{" "}
             <a
-              href={siteConfig.links.twitter}
+              href={siteConfig.links.email}
               target="_blank"
               rel="noreferrer"
               className="font-medium text-foreground underline underline-offset-4"
