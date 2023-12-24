@@ -27,7 +27,7 @@ export default async function PricingPage() {
           Unlimited edits for your content.
         </p>
       </div>
-      <div className="grid w-full items-start gap-10 rounded-lg border p-10 md:grid-cols-[1fr_200px]">
+      <div className="grid w-full items-start gap-10 rounded-lg border p-10 md:grid-cols-[1fr_200px] hover:border-b-1 border-r-black border-r-8 border-b-black border-b-8">
         <div className="grid gap-6">
           <h3 className="text-xl font-bold sm:text-2xl">
             What&apos;s included in the PRO plan

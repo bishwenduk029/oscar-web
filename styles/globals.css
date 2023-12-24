@@ -4,34 +4,37 @@
 
 @layer base {
   :root {
-    --background: 50 45% 100%;
-    --foreground: 20 44% 10%; /* Dark brown for main text, enhancing readability */
+    --background: 210 45% 95%; /* Soft blue for a light and airy background */
 
-    --muted: 14 100% 93%; /* Very soft orange for less important elements */
-    --muted-foreground: 20 44% 10%; /* Dark brown for text on muted elements */
+    --foreground: 210 15% 20%; /* Dark blue-grey for main text, enhancing readability */
 
-    --popover: 16 86% 63%; /* Warm, mid-tone orange for popovers */
+    --muted: 190 100% 90%; /* Very soft cyan for less important elements */
+    --muted-foreground: 210 15% 20%; /* Dark blue-grey for text on muted elements */
+
+    --popover: 175 60% 65%; /* Gentle teal for popovers */
     --popover-foreground: 0 0% 100%; /* White for popover text for contrast */
 
-    --border: 27 90% 88%; /* Light coral for borders */
-    --input: 27 90% 88%; /* Light coral for input fields */
+    --border: 190, 50%, 5%; /* Black for borders */
+    --input: 190, 50%, 5%; /* Black for input fields */
 
-    --card: 11 80% 50%; /* Rich, deep orange for cards */
+    /* Adjusting the card and popover colors to complement the cool background */
+    --card: 200 80% 70%; /* Soft blue for cards */
     --card-foreground: 0 0% 100%; /* White for text on cards for contrast */
 
-    --primary: 359 70% 54%; /* Soft red for primary elements */
+    --popover: 185 86% 80%; /* Lighter teal for popovers */
+    --popover-foreground: 0 0% 100%; /* White for popover text for contrast */
+
+    /* Subtle adjustments to primary and accent colors for a cooler palette */
+    --primary: 210 70% 54%; /* Soft blue for primary elements */
     --primary-foreground: 0 0% 100%; /* White for text on primary elements */
 
-    --secondary: 32 100% 64%; /* Bright orange for secondary elements */
-    --secondary-foreground: 20 44% 10%; /* Dark brown for text on secondary elements */
-
-    --accent: 29 94% 52%; /* Vibrant orange for accents */
+    --accent: 205 90% 60%; /* Cooler shade of blue for accents */
     --accent-foreground: 0 0% 100%; /* White for text on accent elements */
 
-    --destructive: 0 79% 61%; /* Warm red for destructive actions */
+    --destructive: 340 70% 50%; /* Less vibrant pink for destructive actions */
     --destructive-foreground: 0 0% 100%; /* White for text on destructive elements */
 
-    --ring: 32 100% 64%; /* Bright orange for focus rings */
+    --ring: 195 100% 65%; /* Bright cyan for focus rings */
 
     --radius: 0.5rem; /* Border radius for elements */
   }

@@ -2,6 +2,11 @@ import { NextResponse } from "next/server"
 
 import { db } from "@/lib/db"
 
+const categories = {
+  oscar_edit: "Quick Edit",
+  oscar_tone: "Change Tone",
+}
+
 export async function GET(req: Request) {
   const headers = new Headers({
     "Access-Control-Allow-Origin": "*", // Or specify a specific domain
@@ -18,7 +23,15 @@ export async function GET(req: Request) {
       },
     })
 
-    return NextResponse.json({ prompts }, { headers, status: 200 })
+    const promptsWithCatagories = prompts.map((prompt) => ({
+      ...prompt,
+      categoryTitle: categories[prompt.category],
+    }))
+
+    return NextResponse.json(
+      { prompts: promptsWithCatagories },
+      { headers, status: 200 }
+    )
   } catch (error) {
     console.error("Request error", error)
     NextResponse.json(

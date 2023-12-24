@@ -15,8 +15,8 @@ export default function RegisterPage() {
       <Link
         href="/login"
         className={cn(
-          buttonVariants({ variant: "link" }),
-          "absolute right-4 top-4 md:right-8 md:top-8"
+          buttonVariants({ variant: "outline" }),
+          "absolute right-4 top-4 md:right-8 md:top-8 font-extrabold"
         )}
       >
         Login
