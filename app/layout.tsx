@@ -56,7 +56,7 @@ export const metadata = {
   authors: [
     {
       name: "Sayanti",
-      url: "https://oscar-web-rho.vercel.app/",
+      url: "https://oscarai.synthminds.in/",
     },
   ],
   creator: "Sayanti",
