@@ -82,7 +82,7 @@ export const metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [`${siteConfig.url}/opengraph-image.png`],
-    creator: "@shadcn",
+    creator: "@SayantiKundu87",
   },
   icons: {
     icon: "/favicon.ico",
@@ -140,6 +140,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             key={index}
           />
         ))}
+
+        <meta
+          name="google-site-verification"
+          content={`${env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}`}
+        />
 
         {/* Favicon and Icons */}
         <link rel="icon" href={metadata.icons.icon} />
