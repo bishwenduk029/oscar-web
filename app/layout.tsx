@@ -1,7 +1,8 @@
-import { Inter as FontSans } from "next/font/google"
+import { Fraunces as FontSans } from "next/font/google"
 import localFont from "next/font/local"
 
 import "@/styles/globals.css"
+import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
 import { absoluteUrl, cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
@@ -12,8 +13,12 @@ import { Providers } from "./provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
+  weight: "300", // or any other weight you need
   variable: "--font-sans",
-})
+});
+
+
+const NEXT_PUBLIC_APP_URL = env.NEXT_PUBLIC_APP_URL
 
 // Font files can be colocated inside of `pages`
 const fontHeading = localFont({
@@ -56,7 +61,7 @@ export const metadata = {
   authors: [
     {
       name: "Sayanti",
-      url: "https://oscarai.synthminds.in/",
+      url: `${NEXT_PUBLIC_APP_URL}/`,
     },
   ],
   creator: "Sayanti",
