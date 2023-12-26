@@ -15,8 +15,7 @@ const fontSans = FontSans({
   subsets: ["latin"],
   weight: "400", // or any other weight you need
   variable: "--font-sans",
-});
-
+})
 
 const NEXT_PUBLIC_APP_URL = env.NEXT_PUBLIC_APP_URL
 
@@ -76,12 +75,13 @@ export const metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
+    images: [`${siteConfig.url}/opengraph-image.png`],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/og.jpg`],
+    images: [`${siteConfig.url}/opengraph-image.png`],
     creator: "@shadcn",
   },
   icons: {
@@ -95,7 +95,58 @@ export const metadata = {
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        {/* Dynamic meta tags */}
+        <meta name="title" content={metadata.title.default} />
+        <meta name="description" content={metadata.description} />
+        {metadata.keywords && (
+          <meta name="keywords" content={metadata.keywords.join(", ")} />
+        )}
+        {metadata.authors &&
+          metadata.authors.map((author) => (
+            <meta name="author" content={author.name} key={author.name} />
+          ))}
+        <meta property="og:type" content={metadata.openGraph.type} />
+        <meta property="og:locale" content={metadata.openGraph.locale} />
+        <meta property="og:url" content={metadata.openGraph.url} />
+        <meta property="og:title" content={metadata.openGraph.title} />
+        <meta
+          property="og:description"
+          content={metadata.openGraph.description}
+        />
+        <meta property="og:site_name" content={metadata.openGraph.siteName} />
+        {metadata.openGraph.images &&
+          metadata.openGraph.images.map((image, index) => (
+            <meta property="og:image" content={image} key={index} />
+          ))}
+        <meta name="twitter:card" content={metadata.twitter.card} />
+        <meta name="twitter:title" content={metadata.twitter.title} />
+        <meta
+          name="twitter:description"
+          content={metadata.twitter.description}
+        />
+        {metadata.twitter.images &&
+          metadata.twitter.images.map((image, index) => (
+            <meta name="twitter:image" content={image} key={index} />
+          ))}
+        <meta name="twitter:creator" content={metadata.twitter.creator} />
+
+        {/* Theme Color Meta Tags */}
+        {metadata.themeColor.map((theme, index) => (
+          <meta
+            name="theme-color"
+            media={theme.media}
+            content={theme.color}
+            key={index}
+          />
+        ))}
+
+        {/* Favicon and Icons */}
+        <link rel="icon" href={metadata.icons.icon} />
+        <link rel="shortcut icon" href={metadata.icons.shortcut} />
+        <link rel="apple-touch-icon" href={metadata.icons.apple} />
+        <link rel="manifest" href={metadata.manifest} />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
