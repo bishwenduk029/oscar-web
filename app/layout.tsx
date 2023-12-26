@@ -13,7 +13,7 @@ import { Providers } from "./provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
-  weight: "300", // or any other weight you need
+  weight: "400", // or any other weight you need
   variable: "--font-sans",
 });
 
