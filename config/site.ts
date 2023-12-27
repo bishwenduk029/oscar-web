@@ -13,5 +13,6 @@ export const siteConfig: SiteConfig = {
     twitter: "https://www.youtube.com/channel/UCJB34bxHv_IQ6ItBdHe2Vpw",
     github: `${NEXT_PUBLIC_APP_URL}/`,
     email: "mailto:oscarai.copilot@gmail.com",
+    privacy: `${NEXT_PUBLIC_APP_URL}/privacy`,
   },
 }

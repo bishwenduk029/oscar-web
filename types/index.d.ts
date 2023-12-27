@@ -36,6 +36,7 @@ export type SiteConfig = {
     twitter: string
     github: string
     email: string
+    privacy: string
   }
 }
 

@@ -71,6 +71,7 @@
     "crypto": "^1.0.1",
     "date-fns": "^2.29.3",
     "eventsource-parser": "^1.1.1",
+    "framer-motion": "^10.16.16",
     "jsonwebtoken": "^9.0.2",
     "langchain": "^0.0.203",
     "lucide-react": "^0.92.0",

@@ -22,6 +22,14 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               OscarAI
             </a>
             .
+            <a
+              href={siteConfig.links.privacy}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-foreground underline underline-offset-4"
+            >
+              OscarAI
+            </a>
           </p>
         </div>
         {/* <ModeToggle /> */}

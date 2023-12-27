@@ -1,16 +1,34 @@
+"use client"
+
+import Image from "next/image"
 import Link from "next/link"
+import { motion } from "framer-motion"
+import { Play, PlayCircle } from "lucide-react"
 
 import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export default async function IndexPage() {
   return (
     <>
       <section className="text-theme relative flex flex-col space-y-6 pb-8 md:flex-row md:space-y-0 md:pb-12 lg:py-16">
-        <div className="w-full p-4 md:w-1/2">
-          <div className="container flex flex-col items-center gap-4 text-center">
+        <motion.div layout className="w-full p-4 md:w-3/4">
+          <motion.div
+            className="container flex flex-col items-center gap-4 text-center"
+            initial={{ x: -300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.75 }}
+          >
             <Link
               href={siteConfig.links.twitter}
               className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
@@ -21,7 +39,7 @@ export default async function IndexPage() {
             <h1 className="font-heading text-xl sm:text-xl md:text-3xl lg:text-4xl">
               OscarAI - Your Personal Writing Copilot 🧠✍️
             </h1>
-            <p className="max-w-[42rem] text-muted-foreground sm:text-xl sm:leading-8 text-left">
+            <p className="max-w-[52rem] text-muted-foreground sm:text-xl sm:leading-8 text-left">
               Empower your writing with OscarAI, the private writing assistant
               that keeps it cool. Access AI-powered writing assistant right in
               your browser for a seamless and intuitive writing experience.
@@ -55,21 +73,53 @@ export default async function IndexPage() {
                 Linux
               </Link> */}
             </div>
-          </div>
-        </div>
-        <div className="relative w-full p-4 md:w-1/2">
-          <div className="h-[400px] w-full sm:w-5/6 rounded-lg bg-gray-300 overflow-hidden">
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/7quFjBkzdPY?si=lles3FDmwtlRoa9P"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
+        <Dialog>
+          <motion.div
+            className="relative w-full p-4 md:w-3/4"
+            whileHover={{
+              scale: 1.1,
+              transition: { duration: 1 },
+            }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <div className="h-[400px] w-full sm:w-5/6 rounded-lg overflow-hidden">
+              <DialogContent className="sm:max-w-[800px] h-[500px]">
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src="https://www.youtube.com/embed/7quFjBkzdPY?rel=0"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </DialogContent>
+
+              <div
+                id="overlay"
+                className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
+                // onClick event should be handled by a React state for better practices
+              >
+                <Image
+                  src="/images/oscarai_demo.png"
+                  alt="Overlay Image"
+                  layout="fill"
+                  objectFit="contain"
+                  className="w-full h-full"
+                />
+                <DialogTrigger asChild>
+                  <Button
+                    id="play-button"
+                    className="z-50 flex items-center justify-center bg-purple-600 rounded-full w-20 h-20 border-3 border-white"
+                  >
+                    <Play />
+                  </Button>
+                </DialogTrigger>
+              </div>
+            </div>
+          </motion.div>
+        </Dialog>
       </section>
 
       <section
@@ -161,8 +211,7 @@ export default async function IndexPage() {
             Writing CoPilot
           </h2>
           <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
-            Always by your side and can work with any website in your
-            browser.
+            Always by your side and can work with any website in your browser.
           </p>
         </div>
       </section>
