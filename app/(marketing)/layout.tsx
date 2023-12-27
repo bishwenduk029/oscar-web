@@ -17,7 +17,7 @@ export default async function MarketingLayout({
 }: MarketingLayoutProps) {
   const user = await getCurrentUser()
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-orange-50 to-green-50">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-white to-green-50">
       <header className="container z-40">
         <div className="flex h-20 items-center justify-between py-6 ">
           <MainNav items={marketingConfig.mainNav} />
@@ -34,8 +34,8 @@ export default async function MarketingLayout({
               <Link
                 href="/login"
                 className={cn(
-                  buttonVariants({ variant: "default", size: "sm" }),
-                  "px-4"
+                  buttonVariants({ variant: "default", size: "lg" }),
+                  "px-4 text-lg"
                 )}
               >
                 Login

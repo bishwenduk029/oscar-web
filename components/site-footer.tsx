@@ -28,7 +28,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               rel="noreferrer"
               className="font-medium text-foreground underline underline-offset-4"
             >
-              OscarAI
+              Privacy
             </a>
           </p>
         </div>

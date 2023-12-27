@@ -95,3 +95,9 @@
 .animate-gradient-left-to-right {
   animation: animateGradientLeftToRight 5s linear infinite;
 }
+
+@layer components {
+  .skew-z-3 {
+    @apply transform -skew-z-3;
+  }
+}
