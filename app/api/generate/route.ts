@@ -86,7 +86,7 @@ export async function POST(req: Request) {
     // Check if today's date is earlier or equal to endsAt of subscription
     if (new Date() <= new Date(defaultSubscription.endsAt || "")) {
       // Check for the editCount, if editCount === 500, then exit
-      if (defaultSubscription.editsCount === 500) {
+      if (defaultSubscription.editsCount === 50) {
         return new Response(JSON.stringify({ error: "Edit limit reached" }), {
           headers,
           status: 403,

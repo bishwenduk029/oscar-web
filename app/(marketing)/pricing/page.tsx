@@ -37,7 +37,7 @@ export default async function PricingPage() {
               </h3>
               <ul className="text-theme grid gap-3 text-sm sm:grid-cols-2">
                 <li className="flex items-center">
-                  <Icons.check className="mr-2 h-4 w-4" /> 500 Edits
+                  <Icons.check className="mr-2 h-4 w-4" /> 50 Edits
                 </li>
                 <li className="flex items-center">
                   <Icons.check className="mr-2 h-4 w-4" /> All editing features
