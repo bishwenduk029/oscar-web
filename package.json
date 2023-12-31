@@ -75,6 +75,7 @@
     "jsonwebtoken": "^9.0.2",
     "langchain": "^0.0.203",
     "lucide-react": "^0.92.0",
+    "nanoid": "^5.0.4",
     "next": "13.3.2-canary.13",
     "next-auth": "4.22.1",
     "next-contentlayer": "^0.3.1",

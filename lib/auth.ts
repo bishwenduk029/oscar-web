@@ -70,7 +70,9 @@ export const authOptions: NextAuthOptions = {
           email: dbUser.email,
           picture: dbUser.image,
           subscription: {
+            id: activeSubscription.id,
             name: activeSubscription.name,
+            modelName: activeSubscription.modelName,
             status: activeSubscription.status,
             endsAt: activeSubscription.endsAt,
           },
@@ -82,7 +84,7 @@ export const authOptions: NextAuthOptions = {
           name: dbUser.name,
           email: dbUser.email,
           picture: dbUser.image,
-          subscription: null, // Indicates no active subscription
+          subscription: null, // Indicates no active paid subscription
         }
       }
     },

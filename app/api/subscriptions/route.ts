@@ -78,6 +78,15 @@ const webhookPayloadSchema = z.object({
   }),
 })
 
+const plans = {
+  "153334": {
+    modelName: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+  },
+  "196868": {
+    modelName: "mistralai/Mistral-7B-Instruct-v0.1",
+  },
+}
+
 export async function POST(req: Request) {
   const SIGNING_SECRET = env.LEMONSQUEEZY_WEBHOOK_SECRET
   // console.log(req.headers, req.url)
@@ -138,6 +147,7 @@ export async function POST(req: Request) {
             ? data.attributes.first_subscription_item.price_id
             : 0, // Assuming price is linked to price_id of the first subscription item
           planId: data.attributes.product_id, // Assuming product_id corresponds to the planId
+          modelName: plans[data.attributes.product_id].modelName,
           userId: meta.custom_data.user_id, // Custom user ID passed in the meta
           isUsageBased: data.attributes.first_subscription_item
             ? data.attributes.first_subscription_item.is_usage_based

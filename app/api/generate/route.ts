@@ -31,6 +31,7 @@ export async function POST(req: Request) {
 
   const token = authHeader.split(" ")[1]
   let decodedSession
+  let defaultSubscription: any = null
   try {
     decodedSession = verify(token, env.NEXTAUTH_SECRET)
   } catch (error) {
@@ -40,16 +41,69 @@ export async function POST(req: Request) {
     })
   }
 
+  let model = "mistralai/Mistral-7B-Instruct-v0.1"
+
+  if (
+    decodedSession.user.subscription &&
+    decodedSession.user.subscription.status === "active"
+  ) {
+    model = decodedSession.user.subscription.modelName
+  }
+
   if (
     !decodedSession.user.subscription ||
     decodedSession.user.subscription.status !== "active"
   ) {
-    return new Response(
-      JSON.stringify({
-        error: "Access denied. No active subscription found.",
-      }),
-      { headers, status: 403 }
-    )
+    defaultSubscription = await db.subscription.findFirst({
+      where: {
+        userId: decodedSession.user.id,
+        status: "default",
+      },
+    })
+
+    if (!defaultSubscription) {
+      // Create a new subscription with endsAt of 30 days from now
+      const randomInteger = generateRandomIntegerOfLength(7)
+      const subscriptionData = {
+        lemonSqueezyId: randomInteger,
+        orderId: randomInteger + 1,
+        name: decodedSession.user.name,
+        email: decodedSession.user.email,
+        modelName: "mistralai/Mistral-7B-Instruct-v0.1",
+        status: "default",
+        renewsAt: null,
+        endsAt: new Date(new Date().setDate(new Date().getDate() + 30)),
+        price: 0, // Assuming price is linked to price_id of the first subscription item
+        planId: 1, // Assuming product_id corresponds to the planId
+        userId: decodedSession.user.id, // Custom user ID passed in the meta
+        isUsageBased: false,
+      }
+      defaultSubscription = await db.subscription.create({
+        data: subscriptionData,
+      })
+    }
+
+    // Check if today's date is earlier or equal to endsAt of subscription
+    if (new Date() <= new Date(defaultSubscription.endsAt || "")) {
+      // Check for the editCount, if editCount === 500, then exit
+      if (defaultSubscription.editsCount === 500) {
+        return new Response(JSON.stringify({ error: "Edit limit reached" }), {
+          headers,
+          status: 403,
+        })
+      }
+    } else {
+      // Update renewal_date to 30 days from today and set editCount = 0
+      await db.subscription.update({
+        where: {
+          id: defaultSubscription.id,
+        },
+        data: {
+          renewsAt: new Date(new Date().setDate(new Date().getDate() + 30)),
+          editsCount: 0,
+        },
+      })
+    }
   }
 
   try {
@@ -74,15 +128,40 @@ export async function POST(req: Request) {
       )
     }
 
+    console.log("Model being used", model)
+    console.log("Prompt being used", prompt)
+
     const response = await anyscaleAI.completions.create({
-      model: env.ANYSCALE_MODEL,
+      model,
       prompt,
       temperature: 0.7,
       stream: true,
       max_tokens: 1024,
     })
 
+    // TODO: update the editsCount in subscriptions for the given user by 1 and then pass it in the header response below.
+
     const stream = OpenAIStream(response, {})
+
+    if (defaultSubscription) {
+      let subscription = await db.subscription.update({
+        where: {
+          id: defaultSubscription.id,
+        },
+        data: {
+          editsCount: defaultSubscription.editsCount + 1,
+        },
+      })
+      return new Response(stream, {
+        headers: {
+          "Content-Type": "text/event-stream",
+          "X-Content-Type-Options": "nosniff",
+          "X-Edits-Count": subscription
+            ? subscription.editsCount.toString()
+            : "0",
+        },
+      })
+    }
 
     return new Response(stream, {
       headers: {
@@ -108,4 +187,17 @@ export async function OPTIONS(req: Request) {
   })
 
   return new Response(null, { headers, status: 204 })
+}
+
+function generateRandomIntegerOfLength(length) {
+  const min = Math.pow(10, length - 1) // Minimum number with 'length' digits
+  const max = Math.pow(10, length) - 1 // Maximum number with 'length' digits
+
+  if (min > Number.MAX_SAFE_INTEGER || max > Number.MAX_SAFE_INTEGER) {
+    throw new Error(
+      "Requested length exceeds the maximum safe integer size in JavaScript"
+    )
+  }
+
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
