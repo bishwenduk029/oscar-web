@@ -107,8 +107,6 @@ export default async function IndexPage() {
                 <img
                   src="/images/oscarai_demo.png"
                   alt="Overlay Image"
-                  layout="fill"
-                  objectFit="contain"
                   className="rounded-xl z-10 w-3/4"
                 />
                 <div className="hidden md:block absolute bottom-40 right-[700px] w-[750px] h-[450px] rounded-full blur-[123px] bg-[radial-gradient(50%_50%_at_50%_50%,#45c9c1_39.0625%,rgba(69,201,193,0)_100%)]"></div>
