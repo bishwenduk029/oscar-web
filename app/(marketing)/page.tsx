@@ -9,11 +9,7 @@ import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 export default async function IndexPage() {
   return (
@@ -104,8 +100,7 @@ export default async function IndexPage() {
                 <img
                   src="/images/oscarai_demo.png"
                   alt="Overlay Image"
-
-                  className="rounded-xl z-10 w-[800px] h-full md:w-3/4"
+                  className="rounded-xl z-10 w-3/4"
                 />
                 <div className="hidden md:block absolute bottom-40 right-[700px] w-[750px] h-[450px] rounded-full blur-[123px] bg-[radial-gradient(50%_50%_at_50%_50%,#45c9c1_39.0625%,rgba(69,201,193,0)_100%)]"></div>
 
@@ -202,7 +197,8 @@ export default async function IndexPage() {
               <div className="space-y-2">
                 <h3 className="font-bold">Privacy</h3>
                 <p className="text-md text-muted-foreground">
-                  We do not use your data to train or fine-tune our models and also do not store your data anywhere.
+                  We do not use your data to train or fine-tune our models and
+                  also do not store your data anywhere.
                 </p>
               </div>
             </div>
