@@ -128,12 +128,22 @@ export async function POST(req: Request) {
       )
     }
 
-    console.log("Model being used", model)
-    console.log("Prompt being used", prompt)
+    // console.log("Model being used", model)
+    // console.log("Prompt being used", prompt)
 
-    const response = await anyscaleAI.completions.create({
+    const response = await anyscaleAI.chat.completions.create({
       model,
-      prompt,
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are OscarAI, a highly experienced and proficient content writer. As helpful writing assistant, try to complete the content editing or writing tasks provided by the user. Do not give any explanations, just complete the task",
+        },
+        {
+          role: "user",
+          content: `Your task is: ${prompt}`,
+        },
+      ],
       temperature: 0.7,
       stream: true,
       max_tokens: 1024,
