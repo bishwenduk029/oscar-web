@@ -66,10 +66,10 @@ export default async function PricingPage() {
               </Link>
             </div>
           </div>
-          <div className="p-2 bg-blue-200"></div>
+          <div className="p-1 bg-blue-200"></div>
         </div>
 
-        <div className="p-2 bg-blue-200"></div>
+        <div className="p-1 bg-blue-200"></div>
       </div>
 
       <div className="flex flex-row w-full transition-transform hover:scale-105">
@@ -110,10 +110,10 @@ export default async function PricingPage() {
               </Link>
             </div>
           </div>
-          <div className="p-2 bg-green-300"></div>
+          <div className="p-1 bg-green-300"></div>
         </div>
 
-        <div className="p-2 bg-green-300"></div>
+        <div className="p-1 bg-green-300"></div>
       </div>
 
       <div className="flex flex-row w-full transition-transform hover:scale-105">
@@ -154,10 +154,10 @@ export default async function PricingPage() {
               </Link>
             </div>
           </div>
-          <div className="p-2 bg-purple-300"></div>
+          <div className="p-1 bg-purple-300"></div>
         </div>
 
-        <div className="p-2 bg-purple-300"></div>
+        <div className="p-1 bg-purple-300"></div>
       </div>
 
       <div className="mx-auto flex w-full max-w-[58rem] flex-col gap-4">
