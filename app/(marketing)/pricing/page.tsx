@@ -32,9 +32,7 @@ export default async function PricingPage() {
         <div className="flex flex-col w-full">
           <div className="grid w-full items-start gap-10 rounded-md p-10 md:grid-cols-[1fr_200px] border-2 border-blue-200">
             <div className="grid gap-6">
-              <h3 className="text-xl font-bold sm:text-2xl">
-                Free Plan.
-              </h3>
+              <h3 className="text-xl font-bold sm:text-2xl">Free Plan.</h3>
               <ul className="text-theme grid gap-3 text-sm sm:grid-cols-2">
                 <li className="flex items-center">
                   <Icons.check className="mr-2 h-4 w-4" /> 50 Edits
@@ -58,12 +56,23 @@ export default async function PricingPage() {
                   No Credit Card Needed
                 </p>
               </div>
-              <Link
-                href={getCheckoutLink(user)}
-                className={cn(buttonVariants({ size: "lg", variant: "outline" }))}
-              >
-                Enabled
-              </Link>
+              {user ? (
+                <Link
+                  href="#"
+                  className={cn(
+                    buttonVariants({ size: "lg", variant: "outline" })
+                  )}
+                >
+                  Enabled
+                </Link>
+              ) : (
+                <Link
+                  href={getCheckoutLink(user)}
+                  className={cn(buttonVariants({ size: "lg" }))}
+                >
+                  Get Started
+                </Link>
+              )}
             </div>
           </div>
           <div className="p-1 bg-blue-200"></div>
@@ -162,7 +171,13 @@ export default async function PricingPage() {
 
       <div className="mx-auto flex w-full max-w-[58rem] flex-col gap-4">
         <p className="text-theme max-w-[85%] leading-normal sm:leading-7">
-          <strong>Amplify Your Productivity with OscarAI.</strong>
+          <Link
+            href="https://oscarai.lemonsqueezy.com/billing"
+            target="_blank"
+            className={cn(buttonVariants({ variant: "link" }), "text-xl text-black")}
+          >
+            <strong>Cancel your subscription anytime</strong>
+          </Link>
         </p>
       </div>
     </section>

@@ -17,6 +17,11 @@ export const env = createEnv({
     ANYSCALE_API_KEY: z.string().min(1),
     ANYSCALE_API_URL: z.string().min(1),
     ANYSCALE_MODEL: z.string().min(1),
+    EMAIL_SERVER_HOST: z.string().min(1),
+    EMAIL_SERVER_PORT: z.string().min(1),
+    EMAIL_SERVER_USER: z.string().min(1),
+    EMAIL_FROM: z.string().min(1),
+    RESEND_API_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
@@ -39,6 +44,12 @@ export const env = createEnv({
     ANYSCALE_API_KEY: process.env.ANYSCALE_API_KEY,
     ANYSCALE_API_URL: process.env.ANYSCALE_API_URL,
     ANYSCALE_MODEL: process.env.ANYSCALE_MODEL,
-    NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION:
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    EMAIL_SERVER_HOST: process.env.EMAIL_SERVER_HOST,
+    EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_HOST,
+    EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER,
+    EMAIL_FROM: process.env.EMAIL_FROM,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
   },
 })

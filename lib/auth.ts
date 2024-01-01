@@ -1,10 +1,14 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { NextAuthOptions } from "next-auth"
+import EmailProvider from "next-auth/providers/email"
 import GoogleProvider from "next-auth/providers/google"
+import { Resend } from "resend"
 
 import { env } from "@/env.mjs"
-import { siteConfig } from "@/config/site"
 import { db } from "@/lib/db"
+import { MagicLinkEmail } from "@/components/emails/magic-link"
+
+const resend = new Resend(env.RESEND_API_KEY)
 
 export const authOptions: NextAuthOptions = {
   // huh any! I know.
@@ -18,6 +22,38 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.RESEND_API_KEY,
+        },
+      },
+      from: env.EMAIL_FROM,
+      sendVerificationRequest: async ({ identifier, url, provider }) => {
+        // const user = await db.user.findUnique({
+        //   where: {
+        //     email: identifier,
+        //   },
+        //   select: {
+        //     emailVerified: true,
+        //   },
+        // })
+
+        const result = await resend.emails.send({
+          from: env.EMAIL_FROM,
+          to: identifier,
+          subject: "Sign-In to empower your content editing with OscarAI",
+          react: MagicLinkEmail({ magicLink: url }),
+        })
+
+        if (result.error) {
+          throw new Error(result.error.message)
+        }
+      },
     }),
   ],
   callbacks: {
