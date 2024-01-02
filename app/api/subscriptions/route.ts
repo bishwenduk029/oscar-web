@@ -34,16 +34,15 @@ const subscriptionAttributesSchema = z.object({
   billing_anchor: z.number().optional(),
   card_last_four: z.string().optional(),
   status_formatted: z.string().optional(),
-  first_subscription_item: z
-    .object({
-      id: z.number(),
-      price_id: z.number(),
-      quantity: z.number(),
-      created_at: z.string(),
-      updated_at: z.string(),
-      is_usage_based: z.boolean(),
-      subscription_id: z.number(),
-    }),
+  first_subscription_item: z.object({
+    id: z.number(),
+    price_id: z.number(),
+    quantity: z.number(),
+    created_at: z.string(),
+    updated_at: z.string(),
+    is_usage_based: z.boolean(),
+    subscription_id: z.number(),
+  }),
   // Any other nested objects or arrays should be defined here as well
 })
 
@@ -145,7 +144,7 @@ export async function POST(req: Request) {
           price: data.attributes.first_subscription_item
             ? data.attributes.first_subscription_item.price_id
             : 0, // Assuming price is linked to price_id of the first subscription item
-          planId: data.attributes.first_subscription_item[0]["subscription_id"], // Assuming product_id corresponds to the planId
+          planId: data.attributes.first_subscription_item.subscription_id, // Assuming product_id corresponds to the planId
           modelName: plans[data.attributes.variant_id].modelName,
           userId: meta.custom_data.user_id, // Custom user ID passed in the meta
           isUsageBased: data.attributes.first_subscription_item
