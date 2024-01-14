@@ -69,8 +69,8 @@ export default async function IndexPage() {
           </motion.div>
         </motion.div>
         <Dialog>
-          <motion.div className="relative w-full justify-center p-20 mt-20">
-            <div className="h-[400px] w-full rounded-lg flex justify-center items-center">
+          <motion.div className="relative w-full justify-center lg:p-20 sm:mt-20 sm:pt-20">
+            <div className="sm:h-[400px] w-full rounded-lg flex justify-center items-center">
               <DialogContent className="sm:max-w-[800px] h-[500px]">
                 <iframe
                   className="absolute top-0 left-0 w-full h-full"
@@ -100,7 +100,7 @@ export default async function IndexPage() {
                 <img
                   src="/images/oscarai_demo.png"
                   alt="Overlay Image"
-                  className="rounded-xl z-10 w-3/4"
+                  className="rounded-xl z-10 w-11/12 lg:w-3/4"
                 />
                 <div className="hidden md:block absolute bottom-40 right-[700px] w-[750px] h-[450px] rounded-full blur-[123px] bg-[radial-gradient(50%_50%_at_50%_50%,#45c9c1_39.0625%,rgba(69,201,193,0)_100%)]"></div>
 
