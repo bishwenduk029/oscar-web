@@ -73,11 +73,11 @@ export default async function IndexPage() {
             <div className="sm:h-[400px] w-full rounded-lg flex justify-center items-center">
               <DialogContent className="sm:max-w-[800px] h-[500px]">
                 <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src="https://www.youtube.com/embed/7quFjBkzdPY?rel=0"
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/XDzzy7kQei8?si=QTSmSmzmfbOCkzrT"
                   title="YouTube video player"
                   frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 ></iframe>
               </DialogContent>
