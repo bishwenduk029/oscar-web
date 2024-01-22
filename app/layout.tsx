@@ -64,10 +64,6 @@ export const metadata = {
     },
   ],
   creator: "Sayanti",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -130,16 +126,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <meta name="twitter:image" content={image} key={index} />
           ))}
         <meta name="twitter:creator" content={metadata.twitter.creator} />
-
-        {/* Theme Color Meta Tags */}
-        {metadata.themeColor.map((theme, index) => (
-          <meta
-            name="theme-color"
-            media={theme.media}
-            content={theme.color}
-            key={index}
-          />
-        ))}
 
         <meta
           name="google-site-verification"

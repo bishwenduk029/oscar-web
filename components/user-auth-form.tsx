@@ -39,7 +39,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       redirect: false,
       callbackUrl: `${
         process.env.NEXT_PUBLIC_APP_URL
-      }/complete?appLoginID=${searchParams?.get("appLoginID")}`,
+      }/editor`,
     })
 
     setIsLoading(false)

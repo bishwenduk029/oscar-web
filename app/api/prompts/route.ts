@@ -1,14 +1,24 @@
 import { NextResponse } from "next/server"
 
 import { db } from "@/lib/db"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 
 const categories = {
   oscar_edit: "Quick Edit",
   oscar_tone: "Change Tone",
-  oscar_copywrite: "Copywriting"
+  oscar_copywrite: "Copywriting",
+  oscar_voice: "Voice",
 }
 
 export async function GET(req: Request) {
+  const decodedSession = getServerSession(authOptions)
+
+  if (!decodedSession) {
+    return new Response(JSON.stringify({ error: "Not Authorized" }), {
+      status: 401,
+    })
+  }
   const headers = new Headers({
     "Access-Control-Allow-Origin": "*", // Or specify a specific domain
     "Access-Control-Allow-Methods": "POST, OPTIONS",

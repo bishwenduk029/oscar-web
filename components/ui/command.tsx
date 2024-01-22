@@ -1,12 +1,23 @@
 "use client"
 
 import * as React from "react"
+import {
+  ArrowArcLeft,
+  ArrowCircleUpLeft,
+  Backspace,
+  CircleNotch,
+  PaperPlaneRight,
+  PencilCircle,
+} from "@phosphor-icons/react"
 import { DialogProps } from "@radix-ui/react-dialog"
 import { Command as CommandPrimitive } from "cmdk"
 import { Search } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+
+import { Button } from "./button"
+import { ScrollArea } from "./scroll-area"
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -15,7 +26,7 @@ const Command = React.forwardRef<
   <CommandPrimitive
     ref={ref}
     className={cn(
-      "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground",
+      "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-background",
       className
     )}
     {...props}
@@ -37,22 +48,70 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   )
 }
 
+interface CommandInputProps
+  extends React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> {
+  isLoading?: boolean
+  handleEdit?: any
+  handleBack? :any
+  isSourceScreen: boolean
+}
+
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
->(({ className, ...props }, ref) => (
-  <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-    <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-    <CommandPrimitive.Input
-      ref={ref}
-      className={cn(
-        "placeholder:text-foreground-muted flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50",
-        className
+  CommandInputProps
+>((props, ref) => {
+  // Log the props to see what's being received on each render
+
+  const { className, isLoading, isSourceScreen, ...otherProps } = props
+
+  return (
+    <form
+      className="relative text-lg flex items-center border-b px-5 border-green-200 ring-0 p-1"
+      cmdk-input-wrapper=""
+    >
+      {!isSourceScreen ? (
+        <Button
+          variant="ghost"
+          className="p-1 text-green-300"
+          onClick={props.handleBack}
+        >
+          <ArrowCircleUpLeft size={24} className="simple-icon" weight="duotone" />
+        </Button>
+      ) : (
+        <PencilCircle
+          size={32}
+          className="mr-2 text-green-300 simple-icon"
+          weight="duotone"
+        />
       )}
-      {...props}
-    />
-  </div>
-))
+      <CommandPrimitive.Input
+        ref={ref}
+        className={cn(
+          "flex h-10 w-full bg-transparent py-5 cmdk-input text-inherit outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 z-10",
+          className
+        )}
+        {...otherProps} // Spread the remaining props
+      />
+      {isLoading && (
+        <CircleNotch
+          size={32}
+          color="#fffcad"
+          weight="duotone"
+          className="animate-spin"
+        />
+      )}
+      {!isLoading && (
+        <Button
+          variant="ghost"
+          className="p-1 text-green-300"
+          onClick={props.handleEdit}
+        >
+          <PaperPlaneRight size={24} className="simple-icon" weight="duotone" />
+        </Button>
+      )}
+    </form>
+  )
+})
 
 CommandInput.displayName = CommandPrimitive.Input.displayName
 
@@ -62,7 +121,7 @@ const CommandList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.List
     ref={ref}
-    className={cn("max-h-[300px] overflow-y-auto overflow-x-hidden", className)}
+    className={cn("max-h-[450px] overflow-y-auto overflow-x-hidden", className)}
     {...props}
   />
 ))
@@ -89,7 +148,7 @@ const CommandGroup = React.forwardRef<
   <CommandPrimitive.Group
     ref={ref}
     className={cn(
-      "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground",
+      "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-md [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-slate-300",
       className
     )}
     {...props}
@@ -117,7 +176,7 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
     {...props}

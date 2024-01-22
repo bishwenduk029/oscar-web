@@ -1,9 +1,11 @@
-import { OpenAIStream } from "ai"
+import { OpenAIStream, StreamingTextResponse } from "ai"
 import { verify } from "jsonwebtoken"
 import { PromptTemplate } from "langchain/prompts"
+import { getServerSession } from "next-auth"
 import OpenAI from "openai"
 
 import { env } from "@/env.mjs"
+import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 
 const anyscaleAI = new OpenAI({
@@ -12,31 +14,14 @@ const anyscaleAI = new OpenAI({
 })
 
 // The function name should directly correspond to the HTTP method
-export async function POST(req: Request) {
-  const headers = new Headers({
-    "Access-Control-Allow-Origin": "*", // Or specify a specific domain
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  })
-
-  let { promptID, prompt } = await req.json() // Read the request body
-  const authHeader = req.headers.get("authorization") // Use 'get' to retrieve headers
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return new Response(
-      JSON.stringify({ error: "No token provided or invalid token format" }),
-      { headers, status: 401 }
-    )
-  }
-
-  const token = authHeader.split(" ")[1]
-  let decodedSession
+export async function POST(req: Request, res: Response) {
+  const decodedSession = await getServerSession(authOptions)
+  let { prompt, promptID } = await req.json()
+  console.log(decodedSession, prompt, promptID)
   let defaultSubscription: any = null
-  try {
-    decodedSession = verify(token, env.NEXTAUTH_SECRET)
-  } catch (error) {
-    return new Response(JSON.stringify({ error: "Invalid token" }), {
-      headers,
+
+  if (!decodedSession) {
+    return new Response(JSON.stringify({ error: "Not Authorized" }), {
       status: 401,
     })
   }
@@ -88,7 +73,6 @@ export async function POST(req: Request) {
       // Check for the editCount, if editCount === 500, then exit
       if (defaultSubscription.editsCount === 50) {
         return new Response(JSON.stringify({ error: "Edit limit reached" }), {
-          headers,
           status: 403,
         })
       }
@@ -107,12 +91,6 @@ export async function POST(req: Request) {
   }
 
   try {
-    const url = env.MODAL_PUBLIC_URL
-    if (!url) {
-      throw new Error(
-        "MODAL_PUBLIC_URL is not defined in the environment variables."
-      )
-    }
 
     if (promptID) {
       const template = await db.prompt.findUnique({
@@ -146,7 +124,6 @@ export async function POST(req: Request) {
       ],
       temperature: 0.7,
       stream: true,
-      max_tokens: 1024,
     })
 
     // TODO: update the editsCount in subscriptions for the given user by 1 and then pass it in the header response below.
@@ -173,16 +150,10 @@ export async function POST(req: Request) {
       })
     }
 
-    return new Response(stream, {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "X-Content-Type-Options": "nosniff",
-      },
-    })
+    return new StreamingTextResponse(stream)
   } catch (error) {
     console.error("API call failed:", error)
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      headers,
       status: 500,
     })
   }

@@ -9,7 +9,6 @@ const nextConfig = {
     domains: ["avatars.githubusercontent.com"],
   },
   experimental: {
-    appDir: true,
     serverComponentsExternalPackages: [
       "@prisma/client",
       "@react-email/components",
@@ -19,11 +18,6 @@ const nextConfig = {
       "resend",
     ],
   },
-  transpilePackages: [
-    "@react-email/components",
-    "@react-email/render",
-    "@react-email/html",
-  ],
 }
 
 export default nextConfig

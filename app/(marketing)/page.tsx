@@ -10,6 +10,7 @@ import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { PenNib } from "@phosphor-icons/react"
 
 export default async function IndexPage() {
   return (
@@ -42,14 +43,14 @@ export default async function IndexPage() {
                 href="/blog"
                 className="leading-6 font-semibold md:px-3 md:py-2"
               >
-                Get free extension for Browsers:
+                Get Started with a Free Plan:
               </Link>
               <Link
-                href="https://chromewebstore.google.com/detail/oscarai-your-personal-wri/cnegknhcdbendcjnnldmidlafhohfeld"
-                className={`${cn(buttonVariants({ size: "lg" }))} font-mono`}
+                href="/editor"
+                className={`${cn(buttonVariants({ size: "lg" }))}`}
               >
-                <ChromeIcon className="mr-2 h-4 w-4" />
-                Chrome
+                <PenNib className="mr-2 h-6 w-6" />
+                Get Started
               </Link>
               {/* <Link
                 href="https://github.com/zankhq/astros"

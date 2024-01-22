@@ -16,7 +16,7 @@
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
-    --accent: 60 4.8% 95.9%;
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 24 9.8% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
@@ -39,7 +39,7 @@
     --secondary-foreground: 60 9.1% 97.8%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
-    --accent: 12 6.5% 15.1%;
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 60 9.1% 97.8%;
     --destructive: 0 72.2% 50.6%;
     --destructive-foreground: 60 9.1% 97.8%;
@@ -76,4 +76,8 @@
   .skew-z-3 {
     @apply transform -skew-z-3;
   }
+}
+
+.shadow-upward {
+  box-shadow: 0px -4px 6px -1px rgba(187, 247, 208, 0.5), 0px -2px 4px -1px rgba(0, 0, 0, 0.06);
 }
