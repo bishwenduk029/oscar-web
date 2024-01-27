@@ -18,6 +18,7 @@ type Subscription = {
   status: string
   endsAt: Date
   planId: number
+  modelName: string
 }
 
 // Extend the User interface from next-auth with additional fields

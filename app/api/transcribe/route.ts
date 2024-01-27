@@ -28,6 +28,7 @@ export async function POST(req: Request, res: Response) {
   try {
     // Create transcription from a video file
     const transcriptionResponse = await openai.audio.transcriptions.create({
+      // @ts-ignore
       file: formData.get("audio"),
       model: "whisper-1",
       language: "en",

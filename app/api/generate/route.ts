@@ -17,7 +17,6 @@ const anyscaleAI = new OpenAI({
 export async function POST(req: Request, res: Response) {
   const decodedSession = await getServerSession(authOptions)
   let { prompt, promptID } = await req.json()
-  console.log(decodedSession, prompt, promptID)
   let defaultSubscription: any = null
 
   if (!decodedSession) {
@@ -32,7 +31,7 @@ export async function POST(req: Request, res: Response) {
     decodedSession.user.subscription &&
     decodedSession.user.subscription.status === "active"
   ) {
-    model = decodedSession.user.subscription.modelName
+    model = decodedSession.user.subscription?.modelName
   }
 
   if (
@@ -64,6 +63,7 @@ export async function POST(req: Request, res: Response) {
         isUsageBased: false,
       }
       defaultSubscription = await db.subscription.create({
+        // @ts-ignore
         data: subscriptionData,
       })
     }

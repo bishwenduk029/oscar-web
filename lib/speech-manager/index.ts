@@ -67,13 +67,14 @@ const sendData = debounce(async function (
   setIsLoading
 ) {
   // if 'sendData' uses 'this', make it a regular function
-  console.log("sending data")
   const response = await fetch(
     `/api/transcribe`,
     {
       method: "POST",
       body: createBody(blob),
-    }
+      credentials: "include"
+    },
+
   )
   const output = await response.json()
   // console.log(output, output["transcript"])
@@ -81,57 +82,10 @@ const sendData = debounce(async function (
   setValue(output["transcript"])
 }, 10)
 
-function base64Encode(str: string) {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(str)
-  let binaryStr = ""
-  for (let i = 0; i < data.length; i++) {
-    binaryStr += String.fromCharCode(data[i])
-  }
-  return window.btoa(binaryStr)
-}
-
-function base64Decode(base64: string) {
-  const binaryStr = window.atob(base64)
-  const bytes = new Uint8Array([...binaryStr].map((char) => char.charCodeAt(0)))
-  return new TextDecoder().decode(bytes)
-}
-
-const handleResponse = async (res: any) => {
-  if (!res.ok) {
-    return res.text().then((error: any) => {
-      throw new Error(error)
-    })
-  }
-  return res.json()
-}
-
 const createBody = (data: any) => {
   const formData = new FormData()
   formData.append("audio", data, "audio.wav")
   return formData
-}
-
-const handleTranscription = async (res: any) => {
-  const transcript = res.transcript
-  console.log(transcript)
-  return transcript
-}
-
-const handleSuccess = async (blob: any) => {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)()
-
-  stopSourceIfNeeded()
-
-  source = audioContext.createBufferSource()
-  source.buffer = await audioContext.decodeAudioData(await blob.arrayBuffer())
-  source.connect(audioContext.destination)
-  source.start(0)
-  sourceIsStarted = true
-}
-
-const handleError = (error: any) => {
-  console.log(`error encountered: ${error.message}`)
 }
 
 const validate = async (data: any) => {
