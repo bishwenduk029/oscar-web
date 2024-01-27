@@ -320,7 +320,7 @@ export default function IndexPage() {
       <div className="grid w-full gap-1.5 h-full">
         <div className="grid mb-2 text-lg gap-1.5 w-11/12 sm:w-3/4 mx-auto">
           <Label htmlFor="message" className="text-lg font-bold">
-            Copied Content:
+            Your Content:
           </Label>
           <Textarea
             ref={inputRef}

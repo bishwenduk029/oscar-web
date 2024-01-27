@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { PenNib } from "@phosphor-icons/react"
 import { motion } from "framer-motion"
 import { Play, PlayCircle } from "lucide-react"
 
@@ -10,19 +11,13 @@ import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { PenNib } from "@phosphor-icons/react"
 
 export default async function IndexPage() {
   return (
     <>
       <section className="text-theme relative flex flex-col space-y-4 pb-8 md:pb-12 lg:py-16">
-        <motion.div className="w-full p-4 z-0">
-          <motion.div
-            className="container flex flex-col items-center gap-4 text-center"
-            initial={{ y: -300, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.75 }}
-          >
+        <div className="w-full p-4 z-0">
+          <div className="container flex flex-col items-center gap-4 text-center">
             <Link
               href={siteConfig.links.twitter}
               className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
@@ -31,12 +26,12 @@ export default async function IndexPage() {
               Follow along on Youtube
             </Link>
             <h1 className="font-heading text-xl sm:text-2xl md:text-5xl lg:text-6xl">
-              OscarAI - Your Personal Writing Copilot 🧠✍️
+              OscarAI - Your Personal Writing Copilot ✍️
             </h1>
             <p className="max-w-[52rem] text-muted-foreground text-xl sm:leading-8 text-center">
               Empower your writing with OscarAI, the private writing assistant
-              that keeps it cool. Access AI-powered writing assistant right in
-              your browser for a seamless and intuitive writing experience.
+              that keeps it cool. Access AI-powered writing assistant online,
+              for your daily content writing and editing needs.
             </p>
             <div className="m-5 flex w-full flex-col items-center justify-center gap-5 md:flex-row md:gap-x-5">
               <Link
@@ -67,8 +62,8 @@ export default async function IndexPage() {
                 Linux
               </Link> */}
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
         <Dialog>
           <motion.div className="relative w-full justify-center lg:p-20 sm:mt-20 sm:pt-20">
             <div className="sm:h-[400px] w-full rounded-lg flex justify-center items-center">
@@ -175,9 +170,10 @@ export default async function IndexPage() {
           <div className="relative overflow-hidden rounded-lg border p-2 border-r-8 border-b-8 border-blue-300">
             <div className="flex h-[200px] flex-col justify-between rounded-md p-5">
               <div className="space-y-2">
-                <h3 className="font-bold">Plug & Play</h3>
+                <h3 className="font-bold">Voice Notes and Summary</h3>
                 <p className="text-md text-muted-foreground">
-                  OscarAI is ready to go from the moment you install it.
+                  OscarAI can now summarize your ramblings into well written
+                  text.
                 </p>
               </div>
             </div>
@@ -212,7 +208,7 @@ export default async function IndexPage() {
             Writing CoPilot
           </h2>
           <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
-            Always by your side and can work with any website in your browser.
+            A writing tool that is always by your side.
           </p>
         </div>
       </section>
