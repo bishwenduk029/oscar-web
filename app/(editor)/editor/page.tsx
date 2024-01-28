@@ -340,7 +340,7 @@ export default function IndexPage() {
             isSourceScreen={screensStack[screensStack.length - 1] === "default"}
             placeholder="Ask OscarAI to..."
             handleback={() => navigateBackward()}
-            handleEdit={() => {
+            handleEdit={(e) => {
               e.preventDefault()
               if (inputRef.current) {
                 inputRef.current.value = ""
