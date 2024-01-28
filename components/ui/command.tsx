@@ -6,8 +6,11 @@ import {
   ArrowCircleUpLeft,
   Backspace,
   CircleNotch,
+  Copy,
   PaperPlaneRight,
   PencilCircle,
+  Recycle,
+  Trash,
 } from "@phosphor-icons/react"
 import { DialogProps } from "@radix-ui/react-dialog"
 import { Command as CommandPrimitive } from "cmdk"
@@ -52,8 +55,11 @@ interface CommandInputProps
   extends React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> {
   isLoading?: boolean
   handleEdit?: any
-  handleBack? :any
+  handleback?: any
   isSourceScreen: boolean
+  showClearOption: boolean
+  showCopyOption: boolean
+  handleCopy?: any
 }
 
 const CommandInput = React.forwardRef<
@@ -62,7 +68,15 @@ const CommandInput = React.forwardRef<
 >((props, ref) => {
   // Log the props to see what's being received on each render
 
-  const { className, isLoading, isSourceScreen, ...otherProps } = props
+  const {
+    className,
+    isLoading,
+    isSourceScreen,
+    showClearOption,
+    handleCopy,
+    showCopyOption,
+    ...otherProps
+  } = props
 
   return (
     <form
@@ -73,9 +87,13 @@ const CommandInput = React.forwardRef<
         <Button
           variant="ghost"
           className="p-1 text-green-300"
-          onClick={props.handleBack}
+          onClick={props.handleback}
         >
-          <ArrowCircleUpLeft size={24} className="simple-icon" weight="duotone" />
+          <ArrowCircleUpLeft
+            size={24}
+            className="simple-icon"
+            weight="duotone"
+          />
         </Button>
       ) : (
         <PencilCircle
@@ -100,13 +118,22 @@ const CommandInput = React.forwardRef<
           className="animate-spin"
         />
       )}
-      {!isLoading && (
+      {!isLoading && showClearOption && (
         <Button
           variant="ghost"
           className="p-1 text-green-300"
           onClick={props.handleEdit}
         >
-          <PaperPlaneRight size={24} className="simple-icon" weight="duotone" />
+          <Trash size={24} className="simple-icon" weight="duotone" />
+        </Button>
+      )}
+      {!isLoading && showCopyOption && (
+        <Button
+          variant="ghost"
+          className="p-1 text-green-300 m-1"
+          onClick={props.handleCopy}
+        >
+          <Copy size={24} className="simple-icon" weight="duotone" />
         </Button>
       )}
     </form>
@@ -176,7 +203,7 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-foreground aria-selected:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
     {...props}

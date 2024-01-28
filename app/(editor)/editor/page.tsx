@@ -21,14 +21,12 @@ import {
 } from "@/components/ui/command"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/components/ui/use-toast"
 
 // ts-ignore
-const VoicePromptPanel = dynamic(
-  () => import("@/components/voice"),
-  {
-    ssr: false, // This will disable server-side rendering for this import
-  }
-)
+const VoicePromptPanel = dynamic(() => import("@/components/voice"), {
+  ssr: false, // This will disable server-side rendering for this import
+})
 
 export interface IEditOption {
   key: string
@@ -114,6 +112,7 @@ export default function IndexPage() {
   const { data: session } = useSession()
   const [showOptions, setShowOptions] = useState(false)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const [showClearOption, setShowClearOption] = useState(false)
   const [screensStack, setScreensStack] = useState(["default"])
   const commandInputRef = useRef<HTMLInputElement>(null)
   const [inputPrompt, setInputPrompt] = useState<IEditOption | null>(null)
@@ -121,7 +120,7 @@ export default function IndexPage() {
     `/api/prompts`,
     promptsFetcher
   )
-  const { completion, complete, isLoading } = useCompletion({
+  const { completion, complete, isLoading, setCompletion } = useCompletion({
     api: `/api/generate`,
     credentials: "include",
   })
@@ -168,7 +167,6 @@ export default function IndexPage() {
   const handlePrompt = () => {
     setShowOptions(false)
     if (commandInputRef.current) {
-      console.log("But I was called")
       commandInputRef.current.blur()
     }
     if (
@@ -259,7 +257,31 @@ export default function IndexPage() {
       default:
         return (
           <CommandList className="sm:p-4 h-full scrollbar-hide">
-            <CommandEmpty>Custom Instructions</CommandEmpty>
+            <CommandEmpty
+              onSelect={() => {
+                setShowOptions(false)
+                if (commandInputRef.current) {
+                  commandInputRef.current.blur()
+                }
+                const userInstructions = commandInputRef.current?.value || ""
+
+                let content = userInstructions
+
+                if (inputRef.current?.value.length !== 0) {
+                  content += "\nContent is: " + inputRef.current?.value || ""
+                }
+                return complete(content, {
+                  body: {
+                    promptID: inputPrompt?.key || null,
+                  },
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                })
+              }}
+            >
+              Custom Instructions
+            </CommandEmpty>
             {Object.entries(oscarAIMenu).map(
               ([categoryKey, categorizedPrompt]) => (
                 <Fragment key={categoryKey}>
@@ -271,34 +293,7 @@ export default function IndexPage() {
                       return (
                         <PromptCommandItem
                           key={editItem.key}
-                          onSelect={(newValue) => {
-                            const promptObject = categorizedPrompt.prompts.find(
-                              (editOption) =>
-                                editOption.title.toLowerCase() ===
-                                newValue.toLowerCase()
-                            )
-                            if (!promptObject) {
-                              return
-                            }
-
-                            setInputPrompt(promptObject)
-                            if (commandInputRef.current) {
-                              commandInputRef.current.value =
-                                promptObject?.title || ""
-                            }
-
-                            if (promptObject?.isTemplateEditable) {
-                              navigateForward("editPromptForm")
-                              return
-                            }
-
-                            if (promptObject?.category === "oscar_voice") {
-                              navigateForward("voicePromptPanel")
-                              return
-                            }
-
-                            return handlePrompt()
-                          }}
+                          onSelect={handlePromptSelection(categorizedPrompt)}
                           icon={editItem.icon}
                           title={editItem.title}
                           disabled={false}
@@ -326,6 +321,7 @@ export default function IndexPage() {
             ref={inputRef}
             className=" border-2 h-40 text-lg"
             placeholder="Type or Paste your content here."
+            onChange={() => setShowClearOption(true)}
             id="message"
           />
         </div>
@@ -338,13 +334,35 @@ export default function IndexPage() {
             value={completion}
           />
         )}
-        <Command className="rounded-xl text-white border shadow-upward bg-slate-900">
+        <Command className="rounded-xl text-white border shadow-upward bg-slate-900 m-3 sm:m-0">
           <CommandInput
             ref={commandInputRef}
             isSourceScreen={screensStack[screensStack.length - 1] === "default"}
             placeholder="Ask OscarAI to..."
-            handleBack={() => navigateBackward()}
+            handleback={() => navigateBackward()}
+            handleEdit={() => {
+              e.preventDefault()
+              if (inputRef.current) {
+                inputRef.current.value = ""
+              }
+              commandInputRef.current?.blur()
+              setShowOptions(false)
+              setShowClearOption(false)
+              setCompletion("")
+            }}
+            showCopyOption={completion.length !== 0}
+            handleCopy={(e) => {
+              e.preventDefault()
+              navigator.clipboard.writeText(completion)
+              return toast({
+                title: "Copied Successfully",
+                description: "Now you can paste anywhere",
+              })
+            }}
             isLoading={isLoading}
+            showClearOption={
+              showClearOption || inputRef.current?.value.length !== 0
+            }
             onFocus={() => {
               setShowOptions(true)
             }}
@@ -354,6 +372,37 @@ export default function IndexPage() {
       </div>
     </div>
   )
+
+  function handlePromptSelection(
+    categorizedPrompt: CategorizedPrompts
+  ): (newValue: string) => void {
+    return (newValue) => {
+      const promptObject = categorizedPrompt.prompts.find(
+        (editOption) =>
+          editOption.title.toLowerCase() === newValue.toLowerCase()
+      )
+      if (!promptObject) {
+        return
+      }
+
+      setInputPrompt(promptObject)
+      if (commandInputRef.current) {
+        commandInputRef.current.value = promptObject?.title || ""
+      }
+
+      if (promptObject?.isTemplateEditable) {
+        navigateForward("editPromptForm")
+        return
+      }
+
+      if (promptObject?.category === "oscar_voice") {
+        navigateForward("voicePromptPanel")
+        return
+      }
+
+      return handlePrompt()
+    }
+  }
 }
 
 interface PromptCommandItemProps {
@@ -372,7 +421,7 @@ const PromptCommandItem: React.FC<PromptCommandItemProps> = ({
 }) => {
   return (
     <CommandItem
-      className=" my-1 text-white"
+      className=" my-1 text-white hover:bg-slate-500"
       disabled={disabled}
       onSelect={onSelect}
     >
