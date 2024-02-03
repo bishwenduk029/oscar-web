@@ -137,6 +137,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <link rel="shortcut icon" href={metadata.icons.shortcut} />
         <link rel="apple-touch-icon" href={metadata.icons.apple} />
         <link rel="manifest" href={metadata.manifest} />
+        <script async src="https://umami-jmlc.onrender.com/script.js" data-website-id="140ef2fe-87c3-44a3-bcc2-f7bee6311db0"></script>
       </head>
       <body
         className={cn(
